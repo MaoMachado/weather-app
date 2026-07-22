@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { getCurrentWeather } from "./services/weatherServices";
+import { getCurrentWeather } from "../services/weatherService";
 
 export default function Home() {
   const [find, setFind] = useState<string>("");
@@ -16,6 +16,7 @@ export default function Home() {
         <h1 className="mb-3 text-xl tracking-wider">App Del Clima</h1>
         <section className="flex items-center gap-3">
           <input
+            aria-label="Buscar Ciudad"
             type="text"
             id="find"
             value={find}
@@ -24,6 +25,7 @@ export default function Home() {
             placeholder="Ingresa la ciudad"
           />
           <button
+            aria-label="Buscar Ciudad"
             onClick={handleSearch}
             className="bg-blue-500 text-white px-4 py-1 rounded-md cursor-pointer"
           >

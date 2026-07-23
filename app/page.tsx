@@ -3,11 +3,33 @@ import { useState } from "react";
 import { getCurrentWeather } from "../services/weatherService";
 
 export default function Home() {
-  const [find, setFind] = useState<string>("");
+  const [city, setCity] = useState<string>("");
   const [weatherData, setWeatherData] = useState<any>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleSearch = async () => {
-    await getCurrentWeather(find);
+    setLoading(true);
+    setError(null);
+
+    if (!city.trim()) {
+      setError("Por favor ingresa el nombre de una ciudad.");
+      setTimeout(() => {
+        setError(null);
+      }, 3500);
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const data = await getCurrentWeather(city);
+      setWeatherData(data);
+    } catch (err) {
+      console.error("Error al cargar datos: ", err);
+      setError("No se encontró la cuidad");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -18,36 +40,70 @@ export default function Home() {
           <input
             aria-label="Buscar Ciudad"
             type="text"
-            id="find"
-            value={find}
-            onChange={(e) => setFind(e.target.value)}
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
             className="border border-gray-600 p-1 rounded-md"
             placeholder="Ingresa la ciudad"
           />
           <button
             aria-label="Buscar Ciudad"
             onClick={handleSearch}
-            className="bg-blue-500 text-white px-4 py-1 rounded-md cursor-pointer"
+            disabled={loading}
+            className="bg-blue-500 text-white px-4 py-1 rounded-md cursor-pointer disabled:bg-gray-400"
           >
-            Buscar
+            {loading ? "Buscando..." : "Buscar"}
           </button>
         </section>
+        <div className="mt-2">
+          {error && <p className="text-red-500">{error}</p>}
+        </div>
       </article>
-      <article className="border text-center p-3 border-gray-800 rounded-lg mt-3">
-        <h2 className="text-2xl font-semibold my-3">
-          Ciudad:
-          <span className="bg-gray-600 ml-3 px-2 py-0.5 rounded"></span>
-        </h2>
+      {weatherData && (
+        <article className="border text-center p-3 border-gray-800 rounded-lg mt-3">
+          <h2 className="text-2xl font-semibold my-3">
+            Ciudad:
+            <span className="bg-gray-600 ml-3 px-2 py-0.5 rounded">
+              {weatherData?.location.name}
+            </span>
+          </h2>
 
-        <h3 className="text-lg tracking-wider flex justify-between mb-3">
-          Temperatura:
-          <span className="bg-gray-600 ml-3 px-2 py-0.5 rounded"></span>
-        </h3>
-        <h3 className="text-lg tracking-wider flex justify-between">
-          Pronostico:
-          <span className="bg-gray-600 ml-3 px-2 py-0.5 rounded"></span>
-        </h3>
-      </article>
+          <section className="flex flex-col gap-3">
+            <p className="text-lg tracking-wider flex flex-col items-center">
+              Temperatura:
+              <span className="bg-gray-500 ml-3 px-2 py-0.5 rounded animate-pulse">
+                {weatherData?.current.temp_c} °C
+              </span>
+            </p>
+
+            <p className="text-lg tracking-wider flex flex-col items-center">
+              Pronostico:
+              <span className="inline-flex items-center gap-1 bg-blue-500/50 px-3 rounded animate-pulse">
+                {weatherData?.current.condition.text}{" "}
+                <img
+                  src={weatherData?.current.condition.icon}
+                  alt={weatherData?.current.condition.text}
+                  width={30}
+                  height={30}
+                />
+              </span>
+            </p>
+
+            <p className="text-lg tracking-wider flex flex-col items-center">
+              Humedad:
+              <span className="bg-cyan-500/50 ml-3 px-2 py-0.5 rounded animate-pulse">
+                {weatherData?.current.humidity}%
+              </span>
+            </p>
+
+            <p className="text-lg tracking-wider flex flex-col items-center">
+              Viento:
+              <span className="bg-sky-500/50 ml-3 px-2 py-0.5 rounded animate-pulse">
+                {weatherData?.current.wind_kph} km/h
+              </span>
+            </p>
+          </section>
+        </article>
+      )}
     </main>
   );
 }

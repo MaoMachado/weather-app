@@ -1,5 +1,21 @@
 import axios from "axios";
 
+export interface WeatherResponse {
+  location: {
+    name: string;
+  };
+
+  current: {
+    temp_c: number;
+    condition: {
+      text: string;
+      icon: string;
+    };
+    humidity: number;
+    wind_kph: number;
+  };
+}
+
 const weatherApi = axios.create({
   baseURL: "http://api.weatherapi.com/v1",
   params: {

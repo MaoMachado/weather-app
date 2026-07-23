@@ -1,44 +1,21 @@
 "use client";
-import { useState } from "react";
-import { getCurrentWeather } from "../services/weatherService";
+
+import { useWeather } from "@/src/hooks/useWeather";
 
 export default function Home() {
-  const [city, setCity] = useState<string>("");
-  const [weatherData, setWeatherData] = useState<any>(null);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const handleSearch = async () => {
-    setLoading(true);
-    setError(null);
-
-    if (!city.trim()) {
-      setError("Por favor ingresa el nombre de una ciudad.");
-      setTimeout(() => {
-        setError(null);
-      }, 3500);
-      setLoading(false);
-      return;
-    }
-
-    try {
-      const data = await getCurrentWeather(city);
-      setWeatherData(data);
-    } catch (err) {
-      console.error("Error al cargar datos: ", err);
-      setError("No se encontró la cuidad");
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { city, setCity, weatherData, loading, error, searchWeather } =
+    useWeather();
 
   return (
     <main className="min-h-screen grid place-content-center">
       <article className="border text-center p-3 border-gray-800 rounded-lg">
         <h1 className="mb-3 text-xl tracking-wider">App Del Clima</h1>
         <section className="flex items-center gap-3">
+          <label htmlFor="city-input" className="sr-only">
+            Ciudad
+          </label>
           <input
-            aria-label="Buscar Ciudad"
+            id="city-input"
             type="text"
             value={city}
             onChange={(e) => setCity(e.target.value)}
@@ -47,7 +24,7 @@ export default function Home() {
           />
           <button
             aria-label="Buscar Ciudad"
-            onClick={handleSearch}
+            onClick={searchWeather}
             disabled={loading}
             className="bg-blue-500 text-white px-4 py-1 rounded-md cursor-pointer disabled:bg-gray-400"
           >
@@ -70,7 +47,7 @@ export default function Home() {
           <section className="flex flex-col gap-3">
             <p className="text-lg tracking-wider flex flex-col items-center">
               Temperatura:
-              <span className="bg-gray-500 ml-3 px-2 py-0.5 rounded animate-pulse">
+              <span className="bg-red-500 ml-3 px-2 py-0.5 rounded animate-pulse">
                 {weatherData?.current.temp_c} °C
               </span>
             </p>
@@ -80,10 +57,9 @@ export default function Home() {
               <span className="inline-flex items-center gap-1 bg-blue-500/50 px-3 rounded animate-pulse">
                 {weatherData?.current.condition.text}{" "}
                 <img
-                  src={weatherData?.current.condition.icon}
+                  src={`https:${weatherData?.current.condition.icon}`}
                   alt={weatherData?.current.condition.text}
-                  width={30}
-                  height={30}
+                  className="w-10 h-10"
                 />
               </span>
             </p>

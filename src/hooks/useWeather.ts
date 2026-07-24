@@ -1,11 +1,25 @@
 import { useState } from "react";
-import { getCurrentWeather, WeatherResponse } from "../services/weatherService";
+import {
+  ForecastDay,
+  getWeatherData,
+  WeatherResponse,
+} from "../services/weatherService";
 
 export const useWeather = () => {
   const [city, setCity] = useState<string>("");
   const [weatherData, setWeatherData] = useState<WeatherResponse | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+
+  const weatherDays = weatherData?.forecast.forecastday ?? [];
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString("es-ES", {
+      weekday: "long",
+      day: "numeric",
+      month: "long",
+    });
+  };
 
   const searchWeather = async () => {
     setLoading(true);
@@ -22,7 +36,7 @@ export const useWeather = () => {
     }
 
     try {
-      const data = await getCurrentWeather(city);
+      const data = await getWeatherData(city);
       setWeatherData(data);
     } catch (err) {
       console.error("Error al cargar datos: ", err);
@@ -32,5 +46,14 @@ export const useWeather = () => {
     }
   };
 
-  return { city, setCity, weatherData, loading, error, searchWeather };
+  return {
+    city,
+    setCity,
+    loading,
+    error,
+    searchWeather,
+    weatherData,
+    weatherDays,
+    formatDate,
+  };
 };

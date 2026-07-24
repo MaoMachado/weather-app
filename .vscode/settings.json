@@ -1,3 +1,10 @@
 {
-  "cSpell.words": ["geist", "WEATHERAPI"]
+  "cSpell.words": [
+    "avghumidity",
+    "forecastday",
+    "geist",
+    "maxtemp",
+    "mintemp",
+    "WEATHERAPI"
+  ]
 }

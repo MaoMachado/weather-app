@@ -14,6 +14,23 @@ export interface WeatherResponse {
     humidity: number;
     wind_kph: number;
   };
+
+  forecast: {
+    forecastday: ForecastDay[];
+  };
+}
+
+export interface ForecastDay {
+  date: string;
+  day: {
+    maxtemp_c: number;
+    mintemp_c: number;
+    avghumidity: number;
+    condition: {
+      text: string;
+      icon: string;
+    };
+  };
 }
 
 const weatherApi = axios.create({
@@ -24,16 +41,10 @@ const weatherApi = axios.create({
   },
 });
 
-export const getCurrentWeather = async (city: string) => {
-  const response = await weatherApi.get("/current.json", {
-    params: { q: city },
-  });
-  return response.data;
-};
-
-export const getForecast = async (city: string) => {
+export const getWeatherData = async (city: string) => {
   const response = await weatherApi.get("/forecast.json", {
-    params: { q: city, days: 3 },
+    params: { q: city, days: 5 },
   });
+
   return response.data;
 };

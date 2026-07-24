@@ -1,6 +1,7 @@
 "use client";
 
 import { useWeather } from "@/src/hooks/useWeather";
+import { formatDate } from "@/src/utils/dateUtils";
 
 export default function Home() {
   const {
@@ -11,7 +12,6 @@ export default function Home() {
     loading,
     error,
     searchWeather,
-    formatDate,
   } = useWeather();
 
   return (

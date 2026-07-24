@@ -34,7 +34,7 @@ export interface ForecastDay {
 }
 
 const weatherApi = axios.create({
-  baseURL: "http://api.weatherapi.com/v1",
+  baseURL: "https://api.weatherapi.com/v1",
   params: {
     key: process.env.NEXT_PUBLIC_WEATHER_API_KEY,
     lang: "es",

@@ -13,14 +13,6 @@ export const useWeather = () => {
 
   const weatherDays = weatherData?.forecast.forecastday ?? [];
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("es-ES", {
-      weekday: "long",
-      day: "numeric",
-      month: "long",
-    });
-  };
-
   const searchWeather = async () => {
     setLoading(true);
     setError(null);
@@ -54,6 +46,5 @@ export const useWeather = () => {
     searchWeather,
     weatherData,
     weatherDays,
-    formatDate,
   };
 };

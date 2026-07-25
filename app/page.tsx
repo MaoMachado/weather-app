@@ -12,6 +12,7 @@ export default function Home() {
     loading,
     error,
     searchWeather,
+    history,
   } = useWeather();
 
   return (
@@ -21,6 +22,7 @@ export default function Home() {
           <h1 className="mb-3 text-xl tracking-wider lg:text-2xl">
             App Del Clima
           </h1>
+
           <section className="flex items-center justify-center gap-3">
             <label htmlFor="city-input" className="sr-only">
               Ciudad
@@ -35,13 +37,28 @@ export default function Home() {
             />
             <button
               aria-label="Buscar Ciudad"
-              onClick={searchWeather}
+              onClick={() => searchWeather()}
               disabled={loading}
               className="bg-blue-500 text-white px-4 py-1 rounded-md cursor-pointer disabled:bg-gray-400"
             >
               {loading ? "Buscando..." : "Buscar"}
             </button>
           </section>
+
+          <div className="flex mt-3 gap-3 justify-center">
+            {history.map((h) => (
+              <button
+                key={h}
+                onClick={() => {
+                  searchWeather(h);
+                }}
+                className="bg-blue-500/50 px-3 py-1 rounded-full text-xs tracking-wider font-semibold cursor-pointer"
+              >
+                {h.toUpperCase()}
+              </button>
+            ))}
+          </div>
+
           <div className="mt-2">
             {error && <p className="text-red-500">{error}</p>}
           </div>
@@ -50,59 +67,59 @@ export default function Home() {
         <section className="p-1 lg:flex lg:flex-col lg:items-center lg:gap-2 lg:mt-3">
           {weatherData && (
             <>
-              <article>
-                <h2 className="text-lg tracking-wider text-center lg:text-2xl">
+              <article className="lg:w-1/2">
+                <h2 className="tracking-wider text-center text-3xl">
                   Ciudad:
                   <span className="text-blue-500 font-semibold">
                     📍 {weatherData?.location.name}
                   </span>
                 </h2>
 
-                <section className="bg-blue-500/40 p-2 rounded-md mt-2 flex justify-center gap-3 text-center lg:w-fit lg:mx-auto">
-                  <p className="bg-black/40 px-1 place-content-center rounded text-sm">
+                <section className="bg-blue-500/40 p-2 rounded-md mt-2 flex justify-center gap-3 text-center lg:bg-transparent lg:justify-between">
+                  <p className="bg-black/40 px-3 place-content-center rounded-xl text-sm lg:text-lg">
                     Temperatura:
-                    <span className="block text-lg font-semibold text-red-200">
+                    <span className="block text-lg font-semibold text-red-200 lg:text-2xl">
                       {weatherData?.current.temp_c} °C
                     </span>
                   </p>
 
-                  <p className="bg-black/40 p-2 place-content-center rounded text-sm">
+                  <p className="bg-black/40 px-3 py-1 rounded-xl text-sm lg:text-lg">
                     Pronostico:
                     <img
                       src={`https:${weatherData?.current.condition.icon}`}
                       alt={weatherData?.current.condition.text}
-                      className="w-10 h-10 mx-auto"
+                      className="w-8 h-8 mx-auto lg:w-10 lg:h-10"
                     />
                   </p>
 
-                  <p className="bg-black/40 px-1 place-content-center rounded text-sm">
+                  <p className="bg-black/40 px-3 place-content-center rounded-xl text-sm lg:text-lg">
                     Humedad:
-                    <span className="block text-lg font-semibold text-red-200">
+                    <span className="block text-lg font-semibold text-red-200 lg:text-2xl">
                       {weatherData?.current.humidity}%
                     </span>
                   </p>
 
-                  <p className="bg-black/40 px-1 place-content-center rounded text-sm">
+                  <p className="bg-black/40 px-3 place-content-center rounded-xl text-sm lg:text-lg">
                     Viento:
-                    <span className="block text-lg font-semibold text-red-200">
+                    <span className="block text-md font-semibold text-red-200 lg:text-2xl">
                       {weatherData?.current.wind_kph} km/h
                     </span>
                   </p>
                 </section>
               </article>
 
-              <article className="bg-blue-500/50 p-2 mt-2 rounded-md lg:w-1/2">
+              <article className="mt-2 rounded-md lg:w-1/2">
                 {weatherDays.map((day) => (
                   <section
                     key={day.date}
-                    className="bg-black/40 p-2 rounded-md mt-2"
+                    className="bg-blue-500/30 p-2 rounded-md mb-2 lg:bg-black/10"
                   >
-                    <h2 className="text-lg text-center mb-3 lg:text-xl lg:tracking-wider">
+                    <h2 className="text-lg text-center mb-3 lg:text-2xl lg:tracking-wider">
                       {day.day.condition.text}
                     </h2>
 
-                    <div className="flex justify-between px-3 gap-3">
-                      <figure className="place-content-center">
+                    <div className="flex justify-between lg:justify-center  px-3 gap-3">
+                      <figure className="place-content-center bg-black/50 p-1 rounded-md">
                         <img
                           src={`https:${day.day.condition.icon}`}
                           alt={day.day.condition.text}

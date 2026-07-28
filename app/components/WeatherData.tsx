@@ -6,50 +6,54 @@ export default function WeatherData({
   weatherData: WeatherResponse;
 }) {
   return (
-    <section className="animate-fade-in lg:w-1/2">
-      <h2 className="tracking-wider text-center text-3xl py-3">
-        Ciudad
-        <span className="text-blue-500 font-semibold">
-          📍{weatherData?.location.name}
-        </span>
-      </h2>
+    <section className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg animate-fade-in lg:w-1/2 lg:mx-auto mt-3">
+      <header className="flex items-center justify-between">
+        <div>
+          <h2 className="tracking-wider text-3xl font-bold text-gray-900 dark:text-white">
+            📍{weatherData?.location.name}
+          </h2>
+          <p className="text-gray-500 dark:text-gray-400">
+            {weatherData?.location.country}
+          </p>
+        </div>
 
-      <article className="grid grid-cols-2 gap-2 mt-2">
-        <p className="bg-cyan-700/40 text-center py-2 rounded-xl text-sm lg:text-lg">
-          Temperatura:
-          <span className="block text-lg font-semibold text-red-300 lg:text-2xl">
+        <img
+          src={`https:${weatherData?.current.condition.icon}`}
+          alt={weatherData?.current.condition.text}
+          className="w-16 h-16"
+        />
+      </header>
+
+      <article className="grid grid-cols-2 gap-3 mt-3">
+        <div className="bg-cyan-600/50 dark:bg-cyan-700/40 text-center py-2 rounded-xl">
+          <p className="text-sm text-gray-500 dark:text-gray-400">
+            Temperatura:
+          </p>
+          <p className="text-3xl font-bold text-gray-900 dark:text-white">
             {weatherData?.current.temp_c} °C
-          </span>
-        </p>
-        <p className="bg-cyan-700/40 text-center py-2 rounded-xl text-sm lg:text-lg">
-          Temperatura:
-          <span className="block text-lg font-semibold text-red-300 lg:text-2xl">
-            {weatherData?.current.temp_c} °C
-          </span>
-        </p>
-        <p className="bg-cyan-700/40 text-center py-2 rounded-xl text-sm lg:text-lg">
-          Humedad:
-          <span className="block text-lg font-semibold text-red-300 lg:text-2xl">
+          </p>
+        </div>
+
+        <div className="bg-cyan-600/50 dark:bg-cyan-700/40 text-center py-2 rounded-xl">
+          <p className="text-sm text-gray-500 dark:text-gray-400">Condición</p>
+          <p className="text-lg font-semibold text-gray-900 dark:text-white">
+            {weatherData?.current.condition.text}
+          </p>
+        </div>
+
+        <div className="bg-cyan-600/50 dark:bg-cyan-700/40 text-center py-2 rounded-xl">
+          <p className="text-sm text-gray-500 dark:text-gray-400">Humedad</p>
+          <p className="text-lg font-semibold text-gray-900 dark:text-white">
             {weatherData?.current.humidity}%
-          </span>
-        </p>
-        <p className="bg-cyan-700/40 text-center py-2 rounded-xl text-sm lg:text-lg">
-          Viento:
-          <span className="block text-lg font-semibold text-red-200 lg:text-2xl">
+          </p>
+        </div>
+
+        <div className="bg-cyan-600/50 dark:bg-cyan-700/40 text-center py-2 rounded-xl">
+          <p className="text-sm text-gray-500 dark:text-gray-400">Viento</p>
+          <p className="text-lg font-semibold text-gray-900 dark:text-white">
             {weatherData?.current.wind_kph} km/h
-          </span>
-        </p>
-        <p className="bg-cyan-800/40 py-3 rounded-xl text-xl text-center col-span-2">
-          Pronostico:
-          <img
-            src={`https:${weatherData?.current.condition.icon}`}
-            alt={weatherData?.current.condition.text}
-            className="w-10 h-10 mx-auto"
-          />
-          <span className="block text-lg">
-            {weatherData?.current.condition.text.toLocaleUpperCase()}
-          </span>
-        </p>
+          </p>
+        </div>
       </article>
     </section>
   );

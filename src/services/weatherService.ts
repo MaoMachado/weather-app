@@ -3,6 +3,7 @@ import axios from "axios";
 export interface WeatherResponse {
   location: {
     name: string;
+    country: string;
   };
 
   current: {

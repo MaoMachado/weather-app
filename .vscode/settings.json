@@ -5,6 +5,7 @@
     "geist",
     "maxtemp",
     "mintemp",
+    "tailwindcss",
     "WEATHERAPI"
   ]
 }

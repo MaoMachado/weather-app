@@ -1,4 +1,6 @@
 export const searchHistory = (city: string) => {
+  if (city === "") return;
+
   const historySave = localStorage.getItem("searchHistory");
   const history: string[] = historySave ? JSON.parse(historySave) : [];
 
@@ -22,7 +24,6 @@ export const getSearchHistory = (): string[] => {
   try {
     const parsed = JSON.parse(historySave);
 
-    // valida que sea array Y que todos los elementos sean strings
     if (
       Array.isArray(parsed) &&
       parsed.every((item) => typeof item === "string")

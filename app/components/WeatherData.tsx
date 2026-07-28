@@ -10,8 +10,9 @@ export default function WeatherData({
       <header className="flex items-center justify-between">
         <div>
           <h2 className="tracking-wider text-3xl font-bold text-gray-900 dark:text-white">
-            📍{weatherData?.location.name}
+            {weatherData?.location.name}
           </h2>
+
           <p className="text-gray-500 dark:text-gray-400">
             {weatherData?.location.country}
           </p>
@@ -29,6 +30,7 @@ export default function WeatherData({
           <p className="text-sm text-gray-500 dark:text-gray-400">
             Temperatura:
           </p>
+
           <p className="text-3xl font-bold text-gray-900 dark:text-white">
             {weatherData?.current.temp_c} °C
           </p>
@@ -36,6 +38,7 @@ export default function WeatherData({
 
         <div className="bg-cyan-600/50 dark:bg-cyan-700/40 text-center py-2 rounded-xl">
           <p className="text-sm text-gray-500 dark:text-gray-400">Condición</p>
+
           <p className="text-lg font-semibold text-gray-900 dark:text-white">
             {weatherData?.current.condition.text}
           </p>
@@ -43,6 +46,7 @@ export default function WeatherData({
 
         <div className="bg-cyan-600/50 dark:bg-cyan-700/40 text-center py-2 rounded-xl">
           <p className="text-sm text-gray-500 dark:text-gray-400">Humedad</p>
+
           <p className="text-lg font-semibold text-gray-900 dark:text-white">
             {weatherData?.current.humidity}%
           </p>
@@ -50,8 +54,9 @@ export default function WeatherData({
 
         <div className="bg-cyan-600/50 dark:bg-cyan-700/40 text-center py-2 rounded-xl">
           <p className="text-sm text-gray-500 dark:text-gray-400">Viento</p>
+
           <p className="text-lg font-semibold text-gray-900 dark:text-white">
-            {weatherData?.current.wind_kph} km/h
+            {weatherData?.current.wind_kph} KM/H
           </p>
         </div>
       </article>

@@ -5,21 +5,21 @@ export default function WeatherDays({ day }: { day: ForecastDay }) {
   return (
     <section
       key={day.date}
-      className="bg-blue-600/20 p-3 rounded-xl mb-2 lg:bg-black/10 animate-fade-in"
+      className="bg-white dark:bg-gray-900 p-4 rounded-xl shadow-lg text-center mb-3 animate-fade-in"
     >
-      <h2 className="text-xl text-center mb-3 lg:text-2xl lg:tracking-wider">
-        {day.day.condition.text}
-      </h2>
+      <p className="font-semibold text-gray-900 dark:text-white mb-3">
+        {formatDate(day.date)}
+      </p>
 
-      <main className="flex justify-between lg:justify-center px-3 gap-3">
-        <figure className="place-content-center px-3 rounded-xl panel-header">
+      <main className="flex justify-between p-3 gap-3">
+        <figure className="place-content-center px-3 rounded-xl panel-header flex-1">
           <img
             src={`https:${day.day.condition.icon}`}
             alt={day.day.condition.text}
-            className="w-10 h-10 mx-auto mb-1 lg:w-14 lg:h-14"
+            className="w-10 h-10 mx-auto mb-1 lg:w-12 lg:h-12"
           />
-          <figcaption className="text-sm tracking-wider lg:text-lg">
-            {formatDate(day.date)}
+          <figcaption className="text-sm text-gray-500 dark:text-gray-400">
+            {day.day.condition.text}
           </figcaption>
         </figure>
 

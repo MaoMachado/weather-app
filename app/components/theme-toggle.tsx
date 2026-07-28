@@ -7,6 +7,7 @@ export default function ThemeToggle() {
 
   return (
     <button
+      aria-label="Cambiar tema"
       type="button"
       onClick={toggleTheme}
       className="absolute bottom-0 right-0 text-3xl cursor-pointer"

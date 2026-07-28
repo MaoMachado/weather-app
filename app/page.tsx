@@ -1,7 +1,11 @@
 "use client";
 
 import { useWeather } from "@/src/hooks/useWeather";
-import { formatDate } from "@/src/utils/dateUtils";
+import WeatherData from "./components/WeatherData";
+import WeatherDataSkeleton from "./components/WeatherDataSkeleton";
+import WeatherDays from "./components/WeatherDays";
+import WeatherDaysSkeleton from "./components/WeatherDaysSkeleton";
+import ThemeToggle from "@/app/components/theme-toggle";
 
 export default function Home() {
   const {
@@ -17,13 +21,13 @@ export default function Home() {
 
   return (
     <main className="min-h-screen container mx-auto">
-      <div className="lg:p-3">
-        <header className="lg:w-fit mx-auto text-center p-3 bg-slate-800 lg:rounded-lg lg:shadow shadow-gray-500/20">
-          <h1 className="mb-3 text-xl tracking-wider lg:text-2xl">
-            App Del Clima
+      <div className="p-1">
+        <header className="panel-header animate-fade-in text-center p-1 rounded-xl">
+          <h1 className="mb-3 tracking-wider text-2xl font-bold">
+            App Del Clima <ThemeToggle />
           </h1>
 
-          <section className="flex items-center justify-center gap-3">
+          <section className="flex items-center justify-center gap-3 relative">
             <label htmlFor="city-input" className="sr-only">
               Ciudad
             </label>
@@ -32,7 +36,7 @@ export default function Home() {
               type="text"
               value={city}
               onChange={(e) => setCity(e.target.value)}
-              className="border border-gray-600 p-1 rounded-md"
+              className="border border-gray-600 px-2 py-1 rounded-xl"
               placeholder="Ingresa la ciudad"
             />
             <button
@@ -45,14 +49,15 @@ export default function Home() {
             </button>
           </section>
 
-          <div className="flex mt-3 gap-3 justify-center">
+          <div className="flex flex-wrap mt-3 gap-1 lg:justify-center">
             {history.map((h) => (
               <button
+                type="button"
                 key={h}
                 onClick={() => {
                   searchWeather(h);
                 }}
-                className="bg-blue-500/50 px-3 py-1 rounded-full text-xs tracking-wider font-semibold cursor-pointer"
+                className="bg-blue-500/30 px-2 py-1 rounded-full text-xs tracking-wider font-semibold cursor-pointer border dark:border-gray-200/20"
               >
                 {h.toUpperCase()}
               </button>
@@ -62,90 +67,29 @@ export default function Home() {
           <div className="mt-2">
             {error && <p className="text-red-500">{error}</p>}
           </div>
+
+          <div className="absolute -z-10 top-0 left-10 blur-lg w-5 h-full bg-blue-800/30 rounded-full" />
+          <div className="absolute -z-10 bottom-0 right-10 blur-lg w-5 h-full bg-cyan-800/20 rounded-full" />
         </header>
 
         <section className="p-1 lg:flex lg:flex-col lg:items-center lg:gap-2 lg:mt-3">
-          {weatherData && (
+          {loading ? (
             <>
-              <article className="lg:w-1/2">
-                <h2 className="tracking-wider text-center text-3xl">
-                  Ciudad:
-                  <span className="text-blue-500 font-semibold">
-                    📍 {weatherData?.location.name}
-                  </span>
-                </h2>
-
-                <section className="bg-blue-500/40 p-2 rounded-md mt-2 flex justify-center gap-3 text-center lg:bg-transparent lg:justify-between">
-                  <p className="bg-black/40 px-3 place-content-center rounded-xl text-sm lg:text-lg">
-                    Temperatura:
-                    <span className="block text-lg font-semibold text-red-200 lg:text-2xl">
-                      {weatherData?.current.temp_c} °C
-                    </span>
-                  </p>
-
-                  <p className="bg-black/40 px-3 py-1 rounded-xl text-sm lg:text-lg">
-                    Pronostico:
-                    <img
-                      src={`https:${weatherData?.current.condition.icon}`}
-                      alt={weatherData?.current.condition.text}
-                      className="w-8 h-8 mx-auto lg:w-10 lg:h-10"
-                    />
-                  </p>
-
-                  <p className="bg-black/40 px-3 place-content-center rounded-xl text-sm lg:text-lg">
-                    Humedad:
-                    <span className="block text-lg font-semibold text-red-200 lg:text-2xl">
-                      {weatherData?.current.humidity}%
-                    </span>
-                  </p>
-
-                  <p className="bg-black/40 px-3 place-content-center rounded-xl text-sm lg:text-lg">
-                    Viento:
-                    <span className="block text-md font-semibold text-red-200 lg:text-2xl">
-                      {weatherData?.current.wind_kph} km/h
-                    </span>
-                  </p>
-                </section>
-              </article>
-
-              <article className="mt-2 rounded-md lg:w-1/2">
-                {weatherDays.map((day) => (
-                  <section
-                    key={day.date}
-                    className="bg-blue-500/30 p-2 rounded-md mb-2 lg:bg-black/10"
-                  >
-                    <h2 className="text-lg text-center mb-3 lg:text-2xl lg:tracking-wider">
-                      {day.day.condition.text}
-                    </h2>
-
-                    <div className="flex justify-between lg:justify-center  px-3 gap-3">
-                      <figure className="place-content-center bg-black/50 p-1 rounded-md">
-                        <img
-                          src={`https:${day.day.condition.icon}`}
-                          alt={day.day.condition.text}
-                          className="w-10 h-10 mx-auto mb-1 lg:w-14 lg:h-14"
-                        />
-                        <figcaption className="text-sm tracking-wider lg:text-lg">
-                          {formatDate(day.date)}
-                        </figcaption>
-                      </figure>
-
-                      <div className="flex flex-col gap-1">
-                        <p className="bg-black/50 px-3 py-0.5 rounded-full">
-                          Max: {day.day.maxtemp_c} °C
-                        </p>
-                        <p className="bg-black/50 px-3 py-0.5 rounded-full">
-                          Min: {day.day.mintemp_c} °C
-                        </p>
-                        <p className="bg-black/50 px-3 py-0.5 rounded-full">
-                          Hum: {day.day.avghumidity} %
-                        </p>
-                      </div>
-                    </div>
-                  </section>
-                ))}
-              </article>
+              <WeatherDataSkeleton />
+              <WeatherDaysSkeleton />
             </>
+          ) : (
+            weatherData && (
+              <>
+                <WeatherData weatherData={weatherData} />
+
+                <article className="mt-2 rounded-md lg:w-1/2">
+                  {weatherDays.map((day) => (
+                    <WeatherDays key={day.date} day={day} />
+                  ))}
+                </article>
+              </>
+            )
           )}
         </section>
       </div>

@@ -17,5 +17,21 @@ export const searchHistory = (city: string) => {
 
 export const getSearchHistory = (): string[] => {
   const historySave = localStorage.getItem("searchHistory");
-  return historySave ? JSON.parse(historySave) : [];
+  if (!historySave) return [];
+
+  try {
+    const parsed = JSON.parse(historySave);
+
+    // valida que sea array Y que todos los elementos sean strings
+    if (
+      Array.isArray(parsed) &&
+      parsed.every((item) => typeof item === "string")
+    ) {
+      return parsed;
+    }
+
+    return [];
+  } catch {
+    return [];
+  }
 };

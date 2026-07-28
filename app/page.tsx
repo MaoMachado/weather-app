@@ -54,6 +54,7 @@ export default function Home() {
               <button
                 type="button"
                 key={h}
+                disabled={loading}
                 onClick={() => {
                   searchWeather(h);
                 }}

@@ -49,6 +49,7 @@ export default function Home() {
             {history.map((h) => (
               <button
                 key={h}
+                disabled={loading}
                 onClick={() => {
                   searchWeather(h);
                 }}

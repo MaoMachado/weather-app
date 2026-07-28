@@ -5,14 +5,14 @@ export default function WeatherDays({ day }: { day: ForecastDay }) {
   return (
     <section
       key={day.date}
-      className="bg-white dark:bg-gray-900 p-4 rounded-xl shadow-lg text-center mb-3 animate-fade-in"
+      className="flex flex-col gap-3 justify-between bg-white dark:bg-gray-900 p-4 rounded-xl shadow-lg text-center animate-fade-in"
     >
-      <p className="font-semibold text-gray-900 dark:text-white mb-3">
+      <p className="font-semibold text-gray-900 dark:text-white lg:text-xl">
         {formatDate(day.date)}
       </p>
 
-      <main className="flex justify-between p-3 gap-3">
-        <figure className="place-content-center px-3 rounded-xl panel-header flex-1">
+      <main className="flex flex-col gap-3">
+        <figure className="panel-header place-content-center rounded-xl py-1">
           <img
             src={`https:${day.day.condition.icon}`}
             alt={day.day.condition.text}

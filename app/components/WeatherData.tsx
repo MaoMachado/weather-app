@@ -6,7 +6,7 @@ export default function WeatherData({
   weatherData: WeatherResponse;
 }) {
   return (
-    <section className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg animate-fade-in lg:w-1/2">
+    <section className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg animate-fade-in lg:w-1/2 lg:mx-auto mt-3">
       <header className="flex items-center justify-between">
         <div>
           <h2 className="tracking-wider text-3xl font-bold text-gray-900 dark:text-white">
